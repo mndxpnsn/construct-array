@@ -81,12 +81,6 @@ long long count_array(int n, int k, int x) {
 
     if(k < x || n < 2)
         return res;
-    
-    if(n == 2 && x == 1)
-        return 0;
-    
-    if(n == 2 && x != 1)
-        return 1;
         
     if(x == 1)
         res = f_n(n, k, x) % ((int) 1e9 + 7);
@@ -101,7 +95,7 @@ int main(int argc, const char * argv[]) {
     int n, k, x;
     
     //Set parameters
-    n = 6; //Number of elements in array. 1 < n <= 1e+5
+    n = 6; //Number of elements in array. 2 <= n <= 1e+5
     k = 5; //Number of elements to select from. 2 <= k <= 1e+5
     x = 2; //Last element in array. 1 <= x <= k
     
