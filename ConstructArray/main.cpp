@@ -7,10 +7,10 @@
 //  f(2) = 0
 //  g(2) = 1
 //
-//  f(n + 1) = g(n) * (k - 1)
-//  g(n + 1) = f(n) + g(n) * (k - 2)
+//  f(n) = g(n - 1) * (k - 1)
+//  g(n) = f(n - 1) + g(n - 1) * (k - 2)
 //
-//  For all 2 <= n <= 1e+5 and 2 <= k <= 1e+5
+//  For all 3 <= n <= 1e+5 and 2 <= k <= 1e+5
 //
 
 #include <iostream>
