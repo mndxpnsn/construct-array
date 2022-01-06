@@ -3,6 +3,14 @@
 //  ConstructArray
 //
 //  Created by mndx on 06/01/2022.
+//  The solution is based on the recurrence:
+//  f(2) = 0
+//  g(2) = 1
+//
+//  f(n + 1) = g(n) * (k - 1)
+//  g(n + 1) = f(n) + g(n) * (k - 2)
+//
+//  For all 2 <= n <= 1e+5 and 2 <= k <= 1e+5
 //
 
 #include <iostream>
