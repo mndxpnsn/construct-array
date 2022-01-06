@@ -23,8 +23,8 @@ typedef struct memo_table {
 m_table* g_table;
 m_table* f_table;
 
-long long g_m(int n, int k, int x, int m);
-long long f_m(int n, int k, int x, int m);
+long long g_n(int n, int k, int x);
+long long f_n(int n, int k, int x);
 
 void init_tables(int n) {
     g_table = new m_table[n + 1];
@@ -38,40 +38,40 @@ void init_tables(int n) {
     }
 }
 
-long long g_m(int n, int k, int x, int m) {
+long long g_n(int n, int k, int x) {
     long long res = 0;
     
-    if(g_table[m].is_set)
-        return g_table[m].val;
+    if(g_table[n].is_set)
+        return g_table[n].val;
     
-    if(m == 2)
+    if(n == 2)
         return 1;
     
-    if(m > 2)
-        res = f_m(n, k, x, m - 1) + g_m(n, k, x, m - 1) * (k - 2);
+    if(n > 2)
+        res = f_n(n - 1, k, x) + g_n(n - 1, k, x) * (k - 2);
     
     res = res % ((int) 1e+9 + 7);
-    g_table[m].val = res;
-    g_table[m].is_set = true;
+    g_table[n].val = res;
+    g_table[n].is_set = true;
     
     return res;
 }
 
-long long f_m(int n, int k, int x, int m) {
+long long f_n(int n, int k, int x) {
     long long res = 0;
     
-    if(f_table[m].is_set)
-        return f_table[m].val;
+    if(f_table[n].is_set)
+        return f_table[n].val;
     
-    if(m == 2)
+    if(n == 2)
         return 0;
     
-    if(m > 2)
-        res = g_m(n, k, x, m - 1) * (k - 1);
+    if(n > 2)
+        res = g_n(n - 1, k, x) * (k - 1);
     
     res = res % ((int) 1e+9 + 7);
-    f_table[m].val = res;
-    f_table[m].is_set = true;
+    f_table[n].val = res;
+    f_table[n].is_set = true;
     
     return res;
 }
@@ -89,10 +89,10 @@ long long count_array(int n, int k, int x) {
         return 1;
         
     if(x == 1)
-        res = f_m(n, k, x, n) % ((int) 1e9 + 7);
+        res = f_n(n, k, x) % ((int) 1e9 + 7);
     
     if(x != 1)
-        res = g_m(n, k, x, n) % ((int) 1e9 + 7);
+        res = g_n(n, k, x) % ((int) 1e9 + 7);
     
     return res;
 }
