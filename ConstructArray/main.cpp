@@ -70,8 +70,8 @@ long long f_m(int n, int k, int x, int m) {
 
 long long count_array(int n, int k, int x) {
     long long res = 0;
-    
-    if(k < x)
+
+    if(k < x || n < 3)
         return res;
     
     if(x == 1)
