@@ -23,8 +23,8 @@ typedef struct memo_table {
 m_table* g_table;
 m_table* f_table;
 
-long long g_n(int n, int k, int x);
-long long f_n(int n, int k, int x);
+long long g_n(int n, int k);
+long long f_n(int n, int k);
 
 void init_tables(int n) {
     g_table = new m_table[n + 1];
@@ -38,7 +38,7 @@ void init_tables(int n) {
     }
 }
 
-long long g_n(int n, int k, int x) {
+long long g_n(int n, int k) {
     long long res = 0;
     
     if(g_table[n].is_set)
@@ -48,7 +48,7 @@ long long g_n(int n, int k, int x) {
         return 1;
     
     if(n > 2)
-        res = f_n(n - 1, k, x) + g_n(n - 1, k, x) * (k - 2);
+        res = f_n(n - 1, k) + g_n(n - 1, k) * (k - 2);
     
     res = res % ((int) 1e+9 + 7);
     g_table[n].val = res;
@@ -57,7 +57,7 @@ long long g_n(int n, int k, int x) {
     return res;
 }
 
-long long f_n(int n, int k, int x) {
+long long f_n(int n, int k) {
     long long res = 0;
     
     if(f_table[n].is_set)
@@ -67,7 +67,7 @@ long long f_n(int n, int k, int x) {
         return 0;
     
     if(n > 2)
-        res = g_n(n - 1, k, x) * (k - 1);
+        res = g_n(n - 1, k) * (k - 1);
     
     res = res % ((int) 1e+9 + 7);
     f_table[n].val = res;
@@ -83,10 +83,10 @@ long long count_array(int n, int k, int x) {
         return res;
         
     if(x == 1)
-        res = f_n(n, k, x) % ((int) 1e9 + 7);
+        res = f_n(n, k) % ((int) 1e9 + 7);
     
     if(x != 1)
-        res = g_n(n, k, x) % ((int) 1e9 + 7);
+        res = g_n(n, k) % ((int) 1e9 + 7);
     
     return res;
 }
