@@ -4,8 +4,8 @@
 //
 //  Created by mndx on 06/01/2022.
 //  The solution is based on the recurrence:
-//  f(2) = 0
-//  g(2) = 1
+//  f(2, k) = 0
+//  g(2, k) = 1
 //
 //  f(n, k) = g(n - 1, k) * (k - 1)
 //  g(n, k) = f(n - 1, k) + g(n - 1, k) * (k - 2)
