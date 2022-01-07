@@ -82,11 +82,8 @@ long long count_array(int n, int k, int x) {
     if(k < x || n < 2)
         return res;
         
-    if(x == 1)
-        res = f_n(n, k) % ((int) 1e9 + 7);
-    
-    if(x != 1)
-        res = g_n(n, k) % ((int) 1e9 + 7);
+    res = (x == 1) ? f_n(n, k) : g_n(n, k);
+    res = res % ((int) 1e9 + 7);
     
     return res;
 }
