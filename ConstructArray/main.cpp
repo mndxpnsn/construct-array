@@ -46,17 +46,14 @@ long long f(int n, int k);
 long long g(int n, int k) {
     long long res = 0;
     
-    if(g_table[n].is_set) {
+    if(g_table[n].is_set)
         return g_table[n].val;
-    }
     
-    if(n == 3) {
+    if(n == 3)
         return k - 1;
-    }
     
-    if(n > 3) {
+    if(n > 3)
         res = (k - 1) * f(n - 1, k);
-    }
     
     res = res % (long long) (1e9 + 7);
     g_table[n].is_set = true;
@@ -68,19 +65,16 @@ long long g(int n, int k) {
 long long f(int n, int k) {
     long long res = 0;
     
-    if(f_table[n].is_set) {
+    if(f_table[n].is_set)
         return f_table[n].val;
-    }
     
-    if(n == 3) {
+    if(n == 3)
         return k - 2;
-    }
     
-    if(n > 3) {
+    if(n > 3)
         res = g(n - 1, k) + (k - 2) * f(n - 1, k);
-    }
     
-    res = res % ((long long) 1e9 + 7);
+    res = res % (long long) (1e9 + 7);
     f_table[n].is_set = true;
     f_table[n].val = res;
     
