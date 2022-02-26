@@ -4,11 +4,11 @@
 //
 //  Created by mndx on 06/01/2022.
 //  The solution is based on the recurrence:
-//  f(2, k) = 0
-//  g(2, k) = 1
+//  g(3, k) = k - 1
+//  f(3, k) = k - 2
 //
-//  f(n, k) = g(n - 1, k) * (k - 1)
-//  g(n, k) = f(n - 1, k) + g(n - 1, k) * (k - 2)
+//  g(n, k) = (k - 1) * f(n - 1, k)
+//  f(n, k) = g(n - 1, k) + (k - 2) * f(n - 1, k)
 //
 //  For all 3 <= n <= 1e+5 and 2 <= k <= 1e+5
 //
@@ -23,10 +23,7 @@ typedef struct memo_table {
 m_table* g_table;
 m_table* f_table;
 
-long long g_n(int n, int k);
-long long f_n(int n, int k);
-
-void init_tables(int n) {
+void init_m_tables(int n) {
     g_table = new m_table[n + 1];
     f_table = new m_table[n + 1];
     
@@ -38,54 +35,69 @@ void init_tables(int n) {
     }
 }
 
-long long g_n(int n, int k) {
+void delete_m_tables() {
+    delete [] g_table;
+    delete [] f_table;
+}
+
+long long g(int n, int k);
+long long f(int n, int k);
+
+long long g(int n, int k) {
     long long res = 0;
     
-    if(g_table[n].is_set)
+    if(g_table[n].is_set) {
         return g_table[n].val;
+    }
     
-    if(n == 2)
-        return 1;
+    if(n == 3) {
+        return k - 1;
+    }
     
-    if(n > 2)
-        res = f_n(n - 1, k) + g_n(n - 1, k) * (k - 2);
+    if(n > 3) {
+        res = (k - 1) * f(n - 1, k);
+    }
     
-    res = res % ((int) 1e+9 + 7);
-    g_table[n].val = res;
+    res = res % (long long) (1e9 + 7);
     g_table[n].is_set = true;
+    g_table[n].val = res;
     
     return res;
 }
 
-long long f_n(int n, int k) {
+long long f(int n, int k) {
     long long res = 0;
     
-    if(f_table[n].is_set)
+    if(f_table[n].is_set) {
         return f_table[n].val;
+    }
     
-    if(n == 2)
-        return 0;
+    if(n == 3) {
+        return k - 2;
+    }
     
-    if(n > 2)
-        res = g_n(n - 1, k) * (k - 1);
+    if(n > 3) {
+        res = g(n - 1, k) + (k - 2) * f(n - 1, k);
+    }
     
-    res = res % ((int) 1e+9 + 7);
-    f_table[n].val = res;
+    res = res % ((long long) 1e9 + 7);
     f_table[n].is_set = true;
+    f_table[n].val = res;
     
     return res;
 }
 
-long long count_array(int n, int k, int x) {
-    long long res = 0;
-
-    if(k < x || n < 2)
-        return res;
-        
-    res = (x == 1) ? f_n(n, k) : g_n(n, k);
-    res = res % ((int) 1e9 + 7);
+long count_array(int n, int k, int x) {
+    // Return the number of ways to fill in the array.
+    long num_ways = 0;
     
-    return res;
+    init_m_tables(n);
+    
+    num_ways = (x == 1) ? g(n, k) : f(n, k);
+    
+    delete_m_tables();
+    
+    return num_ways;
 }
 
 int main(int argc, const char * argv[]) {
@@ -95,9 +107,6 @@ int main(int argc, const char * argv[]) {
     n = 6; //Number of elements in array. 2 <= n <= 1e+5
     k = 5; //Number of elements to select from. 2 <= k <= 1e+5
     x = 2; //Last element in array. 1 <= x <= k
-    
-    //Initialize memo tables
-    init_tables(n);
     
     //Compute number of admissable arrays
     long long num_arrays = count_array(n, k, x);
