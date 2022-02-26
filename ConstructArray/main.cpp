@@ -82,7 +82,6 @@ long long f(int n, int k) {
 }
 
 long count_array(int n, int k, int x) {
-    // Return the number of ways to fill in the array.
     long num_ways = 0;
     
     init_m_tables(n);
